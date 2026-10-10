@@ -1,0 +1,216 @@
+{
+  "results": [
+    {
+      "test": "Anonymous dashboard redirects to login",
+      "passed": true
+    },
+    {
+      "test": "Security headers and no-store cache policy",
+      "passed": true
+    },
+    {
+      "test": "Session cookie is HttpOnly and SameSite=Lax",
+      "passed": true
+    },
+    {
+      "test": "Registration rejects missing CSRF",
+      "passed": true
+    },
+    {
+      "test": "Registration validates username, email, password and confirmation",
+      "passed": true
+    },
+    {
+      "test": "Register QA_A",
+      "passed": true
+    },
+    {
+      "test": "Register QA_B",
+      "passed": true
+    },
+    {
+      "test": "Duplicate email fails safely",
+      "passed": true
+    },
+    {
+      "test": "SQL injection cannot bypass sign-in",
+      "passed": true
+    },
+    {
+      "test": "Login QA_A",
+      "passed": true
+    },
+    {
+      "test": "Session ID regenerated for QA_A",
+      "passed": true
+    },
+    {
+      "test": "Login QA_B",
+      "passed": true
+    },
+    {
+      "test": "Session ID regenerated for QA_B",
+      "passed": true
+    },
+    {
+      "test": "Create rejects absent CSRF",
+      "passed": true
+    },
+    {
+      "test": "Server rejects blank title",
+      "passed": true
+    },
+    {
+      "test": "Server rejects oversized title",
+      "passed": true
+    },
+    {
+      "test": "Server rejects oversized description",
+      "passed": true
+    },
+    {
+      "test": "Server rejects invalid type",
+      "passed": true
+    },
+    {
+      "test": "Server rejects invalid confidentiality",
+      "passed": true
+    },
+    {
+      "test": "Create and view owned record",
+      "passed": true
+    },
+    {
+      "test": "Search finds owned record",
+      "passed": true
+    },
+    {
+      "test": "Other user search cannot see record",
+      "passed": true
+    },
+    {
+      "test": "Ownership enforced on view_document.php",
+      "passed": true
+    },
+    {
+      "test": "Ownership enforced on edit_document.php",
+      "passed": true
+    },
+    {
+      "test": "Ownership enforced on confirm_delete.php",
+      "passed": true
+    },
+    {
+      "test": "Cross-user update rejected",
+      "passed": true
+    },
+    {
+      "test": "Cross-user delete rejected",
+      "passed": true
+    },
+    {
+      "test": "DELETE via GET rejected",
+      "passed": true
+    },
+    {
+      "test": "Invalid CSRF rejected on update",
+      "passed": true
+    },
+    {
+      "test": "Invalid CSRF rejected on delete",
+      "passed": true
+    },
+    {
+      "test": "Invalid record ID rejected: -1",
+      "passed": true
+    },
+    {
+      "test": "Invalid record ID rejected: 0",
+      "passed": true
+    },
+    {
+      "test": "Invalid record ID rejected: 1 OR 1=1",
+      "passed": true
+    },
+    {
+      "test": "Invalid record ID rejected: 1.0",
+      "passed": true
+    },
+    {
+      "test": "Invalid record ID rejected: 99999999999",
+      "passed": true
+    },
+    {
+      "test": "Array ID rejected safely",
+      "passed": true
+    },
+    {
+      "test": "Owned edit succeeds and HTML is encoded",
+      "passed": true
+    },
+    {
+      "test": "Search treats SQL injection as literal data",
+      "passed": true
+    },
+    {
+      "test": "Invalid filter rejected",
+      "passed": true
+    },
+    {
+      "test": "Search length limited",
+      "passed": true
+    },
+    {
+      "test": "Audit trail shows successful record changes",
+      "passed": true
+    },
+    {
+      "test": "Private resource blocked: backend/config/local.php",
+      "passed": true
+    },
+    {
+      "test": "Private resource blocked: database/schema.sql",
+      "passed": true
+    },
+    {
+      "test": "Private resource blocked: views/document_form.php",
+      "passed": true
+    },
+    {
+      "test": "Private resource blocked: backend/controllers/dashboard.php",
+      "passed": true
+    },
+    {
+      "test": "Delete requires explicit confirmation page",
+      "passed": true
+    },
+    {
+      "test": "Owner can delete with valid CSRF",
+      "passed": true
+    },
+    {
+      "test": "Deleted record becomes unavailable",
+      "passed": true
+    },
+    {
+      "test": "Logout via GET rejected",
+      "passed": true
+    },
+    {
+      "test": "Logout rejects missing CSRF",
+      "passed": true
+    },
+    {
+      "test": "POST logout ends session",
+      "passed": true
+    },
+    {
+      "test": "Repeated login failures throttled",
+      "passed": true
+    }
+  ],
+  "qa_emails": [
+    "qa_a_1790899209157181200@example.test",
+    "qa_b_1790899209157181200@example.test"
+  ]
+}

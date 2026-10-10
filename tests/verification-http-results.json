@@ -1,0 +1,16 @@
+{
+  "Registration requires verification": true,
+  "No verification code exposed in HTML": true,
+  "Pending account cannot access dashboard": true,
+  "Pending account cannot download a file": true,
+  "Verification rejects missing CSRF": true,
+  "Resend rejects missing CSRF": true,
+  "Failed delivery cannot be guessed through": true,
+  "Resend cooldown enforced": true,
+  "Wrong code is rejected via HTTP": true,
+  "Correct code opens dashboard": true,
+  "Session rotated after code verification": true,
+  "Verified account still needs code on next login": true,
+  "Password alone cannot access documents": true,
+  "Second sign-in code completes authentication": true
+}

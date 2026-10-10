@@ -1,0 +1,146 @@
+[
+  {
+    "test": "PDF upload creates a record",
+    "passed": true
+  },
+  {
+    "test": "Owner downloads exact original bytes",
+    "passed": true
+  },
+  {
+    "test": "Download is attachment, no-store, and nosniff",
+    "passed": true
+  },
+  {
+    "test": "Another user cannot download",
+    "passed": true
+  },
+  {
+    "test": "Anonymous download redirects to sign-in",
+    "passed": true
+  },
+  {
+    "test": "Upload without CSRF rejected",
+    "passed": true
+  },
+  {
+    "test": "Reject shell.php",
+    "passed": true
+  },
+  {
+    "test": "Reject fake.pdf",
+    "passed": true
+  },
+  {
+    "test": "Reject fake.png",
+    "passed": true
+  },
+  {
+    "test": "Reject empty.txt",
+    "passed": true
+  },
+  {
+    "test": "Reject bad.docx",
+    "passed": true
+  },
+  {
+    "test": "Reject renamed.pptx",
+    "passed": true
+  },
+  {
+    "test": "Reject payload.svg",
+    "passed": true
+  },
+  {
+    "test": "Reject oversized.pdf",
+    "passed": true
+  },
+  {
+    "test": "Cross-user replacement denied",
+    "passed": true
+  },
+  {
+    "test": "Validated docx package accepted",
+    "passed": true
+  },
+  {
+    "test": "Validated pptx package accepted",
+    "passed": true
+  },
+  {
+    "test": "Validated xlsx package accepted",
+    "passed": true
+  },
+  {
+    "test": "notes.txt replacement downloaded byte-for-byte",
+    "passed": true
+  },
+  {
+    "test": "table.csv replacement downloaded byte-for-byte",
+    "passed": true
+  },
+  {
+    "test": "image.png replacement downloaded byte-for-byte",
+    "passed": true
+  },
+  {
+    "test": "Invalid replacement rejected",
+    "passed": true
+  },
+  {
+    "test": "Old attachment preserved on invalid replacement",
+    "passed": true
+  },
+  {
+    "test": "Replacement and removal conflict rejected",
+    "passed": true
+  },
+  {
+    "test": "Remove attachment succeeds",
+    "passed": true
+  },
+  {
+    "test": "Removed attachment cannot be downloaded",
+    "passed": true
+  },
+  {
+    "test": "Exact 10 MB file accepted",
+    "passed": true
+  },
+  {
+    "test": "Large download matches checksum",
+    "passed": true
+  },
+  {
+    "test": "100 MB per-account boundary accepted",
+    "passed": true
+  },
+  {
+    "test": "Upload above account quota rejected",
+    "passed": true
+  },
+  {
+    "test": "Quota rejection rolls back new record",
+    "passed": true
+  },
+  {
+    "test": "Replacement excludes previous file from quota",
+    "passed": true
+  },
+  {
+    "test": "Smaller replacement releases storage",
+    "passed": true
+  },
+  {
+    "test": "Request over 12 MB returns 413",
+    "passed": true
+  },
+  {
+    "test": "Delete record with attachment succeeds",
+    "passed": true
+  },
+  {
+    "test": "Deleted attachment no longer accessible",
+    "passed": true
+  }
+]

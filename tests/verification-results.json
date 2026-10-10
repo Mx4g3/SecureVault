@@ -1,0 +1,15 @@
+{
+    "Only a password hash of the code is stored": true,
+    "Immediate resend is throttled": true,
+    "Wrong account cannot redeem": true,
+    "Wrong code is rejected": true,
+    "Correct code verifies account": true,
+    "Verified email is persisted": true,
+    "Code cannot be replayed": true,
+    "Expired code rejected": true,
+    "Five wrong attempts exhaust code": true,
+    "Resend invalidates previous code": true,
+    "Newest code works": true,
+    "Delivery failure remains unredeemable": true,
+    "Hourly send budget is enforced": true
+}

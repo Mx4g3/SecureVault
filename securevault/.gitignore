@@ -1,0 +1,4 @@
+/backend/config/local.php
+/backend/config/mail.local.php
+/backend/storage/*.log
+/backend/storage/sessions/

@@ -1,0 +1,23 @@
+<?php
+declare(strict_types=1);
+if (PHP_SAPI !== 'cli') exit(1);
+$base = dirname(__DIR__);
+$settings = json_decode(file_get_contents($base . '/.runtime/settings.json'), true, 512, JSON_THROW_ON_ERROR);
+$pdo = new PDO('mysql:host=127.0.0.1;port=3308;charset=utf8mb4', 'root', $settings['root_password'], [PDO::ATTR_ERRMODE=>PDO::ERRMODE_EXCEPTION]);
+$pdo->exec(file_get_contents($base . '/securevault/database/schema.sql'));
+$pdo->exec(file_get_contents($base . '/securevault/database/uploads.sql'));
+$pdo->exec(file_get_contents($base . '/securevault/database/verification.sql'));
+$pdo->exec('SET GLOBAL max_allowed_packet = 33554432');
+$password = $settings['app_password'];
+$pdo->exec("CREATE USER IF NOT EXISTS 'securevault_app'@'127.0.0.1' IDENTIFIED BY " . $pdo->quote($password));
+$pdo->exec("ALTER USER 'securevault_app'@'127.0.0.1' IDENTIFIED BY " . $pdo->quote($password));
+$pdo->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON securevault_db.users TO 'securevault_app'@'127.0.0.1'");
+$pdo->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON securevault_db.documents TO 'securevault_app'@'127.0.0.1'");
+$pdo->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON securevault_db.document_files TO 'securevault_app'@'127.0.0.1'");
+$pdo->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON securevault_db.verified_emails TO 'securevault_app'@'127.0.0.1'");
+$pdo->exec("GRANT SELECT, INSERT, UPDATE, DELETE ON securevault_db.email_challenges TO 'securevault_app'@'127.0.0.1'");
+$pdo->exec("GRANT SELECT, INSERT ON securevault_db.security_logs TO 'securevault_app'@'127.0.0.1'");
+$pdo->exec("GRANT SELECT, INSERT, DELETE ON securevault_db.login_attempts TO 'securevault_app'@'127.0.0.1'");
+$config = ['SV_DB_HOST'=>'127.0.0.1','SV_DB_PORT'=>'3308','SV_DB_NAME'=>'securevault_db','SV_DB_USER'=>'securevault_app','SV_DB_PASSWORD'=>$password];
+file_put_contents($base . '/securevault/backend/config/local.php', "<?php\nreturn " . var_export($config, true) . ";\n");
+echo "Local database is ready.\n";

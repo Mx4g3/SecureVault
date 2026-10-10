@@ -1,0 +1,3 @@
+{
+  "Database unavailable returns generic HTTP 500 without implementation details": true
+}

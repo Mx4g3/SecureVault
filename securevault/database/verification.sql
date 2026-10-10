@@ -1,0 +1,20 @@
+USE securevault_db;
+CREATE TABLE IF NOT EXISTS verified_emails (
+ user_id INT UNSIGNED PRIMARY KEY,
+ verified_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+) ENGINE=InnoDB;
+CREATE TABLE IF NOT EXISTS email_challenges (
+ id CHAR(64) PRIMARY KEY,
+ user_id INT UNSIGNED NOT NULL,
+ code_hash VARCHAR(255) NOT NULL,
+ remote_hash CHAR(64) NOT NULL,
+ created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+ expires_at DATETIME NOT NULL,
+ attempts INT NOT NULL DEFAULT 0,
+ delivered TINYINT NOT NULL DEFAULT 0,
+ consumed TINYINT NOT NULL DEFAULT 0,
+ FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE,
+ INDEX (user_id, created_at),
+ INDEX (remote_hash, created_at)
+) ENGINE=InnoDB;

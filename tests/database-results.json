@@ -1,0 +1,5 @@
+{
+    "Test account passwords are hashes verified by PHP": true,
+    "Audit logs do not include test passwords, hashes, email, or document payloads": true,
+    "Application database account has no schema or grant privileges": true
+}

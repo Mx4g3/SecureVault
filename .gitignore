@@ -1,0 +1,5 @@
+/.runtime/
+/securevault/backend/config/local.php
+/securevault/backend/config/mail.local.php
+/SecureVault.zip
+/tests/__pycache__/
