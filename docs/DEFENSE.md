@@ -1,37 +1,74 @@
-# Three-minute live defense
+# Three-minute SecureVault demonstration and defense
 
-Use fictional data and two test accounts on your own local app. Prepare both accounts and note a record ID before recording.
+This is a spoken script and recording checklist. Use fictional accounts, files and document details. The app currently requires a real email code at registration and every login. Configure SMTP and test delivery before recording the signup/sign-in portions; see `docs/EMAIL.md`. Do not show a real password, email code, uploaded personal file, or SMTP setting in the video. If you cannot configure SMTP, state that email delivery is pending and demonstrate the remaining flows using a test session already prepared by your instructor; do not bypass verification in application code.
 
-## 0:00–0:25 — Introduce the app
+## Prepare before recording
 
-“SecureVault is a personal document record manager. Users register and sign in, then create, search, view, edit and delete their own document details. Records can include a private attachment. Uploads are validated and downloads verify record ownership.”
+1. Start SecureVault and confirm the dashboard loads. Follow the local setup steps in `README.md`.
+2. Configure SMTP using `docs/EMAIL.md`. Register two fictional accounts whose mailboxes you can access, and verify each account. Create a sample document and attachment as Account A; note its document ID. Do not use the built-in demo account for sign-in because `demo@securevault.test` cannot receive a code.
+3. Prepare two browser profiles, or use one browser and sign out between accounts. Have the document URL for Account A ready. Keep source files open at the code paths mentioned below.
+4. For the invalid-input step, prepare a harmless unsupported file (for example `notes.exe`) and a blank document form. Do not submit real documents.
 
-Show the dashboard, then open My documents.
+## Timed recording script
 
-## 0:25–1:35 — Explain four principles
+### 0:00–0:20 — Introduce the program
 
-“First, input validation. In `backend/includes/security.php`, the server checks required titles, length limits, positive IDs and allowlisted document types and confidentiality levels. HTML form rules help users, but they are not the final security check.”
+**Show:** SecureVault dashboard, then the documents page.
 
-“Second, least privilege and access control. In `backend/includes/functions.php`, `owned_document` selects by both the record ID and the signed-in user's ID. The update and delete controllers repeat this ownership condition. The app's database account has only the privileges it needs.”
+**Say:** “My project is SecureVault, a PHP and MySQL document manager. Each account can save document details, attach supported files, and download its own files. I’ll show input validation, account ownership, and what happens when a request is invalid.”
 
-“Third, fail securely. If identity, ownership or CSRF validation fails, the app stops the request. Unexpected exceptions produce a generic message and an internal reference. Record mutations and their audit entries use a transaction, so they either succeed together or roll back.”
+### 0:20–0:40 — Show verification and sign-in protection
 
-“Fourth, defense in depth. The app combines password hashes, prepared SQL, regenerated sessions, CSRF tokens, output encoding, owner checks and browser security headers. A record ID by itself never grants access.”
+**Show:** Sign out, sign in with one prepared account, and enter the emailed code. Keep the code itself out of the recording. If email delivery has not been configured, skip the attempted code and explicitly say that live email delivery still needs SMTP setup.
 
-## 1:35–2:35 — Demonstrate secure failure
+**Say:** “A correct password starts verification; it does not open the account by itself. Codes expire after ten minutes, allow five attempts, and can only be used once. The registration and sign-in flow is in `backend/controllers/register.php`, `backend/controllers/login.php`, and `backend/controllers/verify_email.php`; the code checks are in `backend/includes/verification.php`.”
 
-1. Open Add document. Submit a blank title to show user feedback. Explain that the automated tests also bypass browser checks and receive server-side HTTP 422 responses.
-2. Show the test report's SQL-injection sign-in result. The email field's browser validation prevents typing an invalid email through a normal submission, so the automated request deliberately sends `' OR '1'='1` directly. It receives the generic failed-login response and does not open a session.
-3. Sign in as account B and open account A's `view_document.php?id=...` URL. Show “This record is unavailable.” Explain that edit and delete enforce the same ownership restriction.
+### 0:40–1:10 — Demonstrate validation and safe output
 
-Do not disable security controls to make a demonstration easier. If recording browser-only evidence of injection, use Developer Tools only on this local test app to remove the email field's client type constraint; the server should still reject it. The repeatable HTTP test is simpler and less error-prone.
+**Show:** Open Add document, submit an empty title, and show the field error. Then try selecting or submitting the prepared unsupported file; show the friendly rejection. If time allows, show a saved record detail page.
 
-## 2:35–3:00 — Answer the secure-failure question
+**Say:** “The browser helps explain the form, but the server validates it again. `backend/includes/security.php` checks title length and allowlisted categories. `backend/includes/uploads.php` checks the filename, actual file size, detected content type, and file signature or Office package structure. `e()` escapes text before it becomes HTML, which prevents a document title from being treated as page code.”
 
-“The app does not assume an unexpected request is safe. It checks input, session identity, form token and ownership before mutation. Invalid requests are denied. Technical failures produce a safe error instead of exposing SQL, passwords or internal paths. The result of uncertainty is denial, not accidental access.”
+### 1:10–1:45 — Demonstrate ownership checks
 
-Close with the activity timeline showing record creation, update and sign-in events.
+**Show:** Sign in as Account B and open Account A’s prepared document URL. Show the unavailable-record response. Then return to B’s own documents page.
 
-## Suggested evidence for your submission
+**Say:** “The second account cannot view the first account’s record. In `backend/includes/functions.php`, `owned_document()` looks up both the record ID and the signed-in user ID. The download query in `backend/controllers/download.php` applies the same ownership rule to attachments. Knowing a record number does not grant access.”
 
-Capture registration validation, the dashboard, an add form, owned records, relevant source lines, and an unauthorized-record response. Use `tests/results.json`, `tests/database-results.json`, and `tests/failure-results.json` as supporting test evidence. Add your own recording link and course/name information to the final course submission. No recording or submission is fabricated by this project.
+### 1:45–2:15 — Explain the principles in the code
+
+**Show:** Briefly point to the relevant functions in the editor or use a prepared code view.
+
+**Say:** “Four secure coding principles are visible here. First, input validation: `validate_document()` and `validated_upload()` reject values and files outside the rules. Second, least privilege and access control: queries scope records to the signed-in account, and the database is configured for a limited application account. Third, fail securely: CSRF, identity, input and ownership failures stop the operation. Fourth, defense in depth: prepared SQL, password hashing, session renewal, CSRF tokens, output escaping and response headers protect different parts of the request.”
+
+### 2:15–2:45 — Answer Question 2: secure failure
+
+**Show:** The invalid-title or unsupported-file message and the unavailable-record response. If the instructor asks about unexpected server errors, show `backend/includes/bootstrap.php`.
+
+**Say:** “When input is invalid, SecureVault returns a field error or rejects the request before saving it. A missing or incorrect form token is denied. If the record belongs to another account, the app returns the same unavailable response used for a nonexistent record. If an unexpected server error occurs, `bootstrap.php` hides technical details from the page, logs a short reference and error class, and tells the user the request was not approved. Database changes and their audit entries run in a transaction, so a failure rolls them back together.”
+
+### 2:45–3:00 — Close
+
+**Show:** Return to the dashboard or activity page.
+
+**Say:** “The demo shows four principles in working code: validate input, limit access to the owner, reject unsafe requests, and use several protections together. This is a class project and has not had an independent security audit.”
+
+## Direct answers for the instructor
+
+### Question 1: Which principles did you implement, and where?
+
+“I implemented at least four. **Input validation** is in `securevault/backend/includes/security.php` for document fields and IDs, and `securevault/backend/includes/uploads.php` for uploaded files. **Least privilege and access control** are in the owner-scoped queries in `securevault/backend/includes/functions.php` and `securevault/backend/controllers/download.php`; the database application user is granted only the required table operations. **Fail securely** is in `securevault/backend/includes/bootstrap.php` and the `abort_request()` helper in `securevault/backend/includes/functions.php`, which deny bad requests and hide internal errors. **Defense in depth** combines PDO prepared statements in `securevault/database/connection.php`, password hashing and email verification in the authentication controllers, CSRF checks and HTML escaping in `security.php`, owner checks, session controls and security headers. Each layer covers a different failure.”
+
+### Question 2: How does the program fail securely?
+
+“It validates values on the server even if a browser check is bypassed. Invalid fields or unsupported files are rejected with a clear message and are not saved. Missing CSRF tokens, invalid IDs, expired verification codes, too many attempts and unauthorised record access stop the request. Database operations use transactions so incomplete changes roll back. For unexpected exceptions, the app shows a generic error and reference, while the log records limited diagnostic details without displaying SQL, credentials, request bodies or private paths. When identity or ownership cannot be established, access is denied.”
+
+## Attribution
+
+“The application logic and original interface for this class project were developed for SecureVault with assistance from OpenAI Codex, based on the supplied project requirements. PHPMailer is bundled under its upstream LGPL-2.1 license; Bootstrap is included under its MIT license. Their licenses and attribution are in `securevault/backend/vendor/phpmailer/LICENSE` and `securevault/frontend/assets/css/BOOTSTRAP-LICENSE.txt`. I did not copy an unattributed tutorial solution.”
+
+If you add code from another source, add a source comment beside that code naming the author and linking the original source when available. Follow that source's license. Do not claim original authorship for code you copied.
+
+## After recording
+
+Watch the video once to make sure no password, email code, private document, database credential or SMTP secret appears. Attach the recording link and your course/name information to the class submission. This guide does not create or submit the video for you.
